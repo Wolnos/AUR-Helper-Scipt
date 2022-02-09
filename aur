@@ -1,0 +1,11 @@
+#!/bin/bash
+AURADDR=https://aur.archlinux.org
+AURPAC=$1
+TMP=/opt/aur/$1
+
+if [ $# -eq 0 ]
+  then
+    exit 1
+fi
+
+[ ! -d "$TMP" ] && git clone "$AURADDR/$AURPAC.git" "$TMP" && [ -d "$TMP" ] && vim "$TMP"/PKGBUILD && read -r -p "Continue with install? [Y/n]" YN && [[ "$YN" == "y" || "$YN" == "Y" ]] && cd "$TMP" && makepkg -sir && rm -rf "$TMP" && cd || echo "REMOVING ""$TMP""" && rm -rf "$TMP" && cd || exit
